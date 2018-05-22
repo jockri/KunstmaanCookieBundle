@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Structures - Cookiebar
+   ========================================================================== */
+
+.kmcc-cookie-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: 100%;
+    overflow: auto;
+
+    display: none;
+
+    z-index: $kmcc_z-cookie-bar;
+
+    padding: 35px 0 35px;
+
+    background: $kmcc_grey;
+
+    font-size: 16px;
+
+    h2 {
+        margin: 0 0 30px;
+
+        font: {
+            size: 33px;
+        }
+
+        color: $kmcc_headings;
+    }
+
+    .kmcc-collapsible-content__title__icon {
+        margin-left: 10px;
+    }
+
+    @media (min-width: $kmcc_screen-md) {
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+
+        height: auto;
+
+        cursor: default;
+
+        border-bottom: none;
+    }
+}
+
+.kmcc-cookie-bar--visible {
+    display: block;
+}
+
+.kmcc-cookie-bar__footer {
+    margin-top: 5px;
+}
+
+.kmcc-cookie-bar__footer__preferences {
+    display: flex;
+    margin-top: 20px;
+
+    justify-content: center;
+    flex-wrap: wrap;
+
+    text-align: center;
+
+    @media (min-width: $kmcc_screen-xs) {
+        margin-top: 0;
+
+        text-align: left;
+    }
+
+    @media (min-width: $kmcc_screen-sm) {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    &__first {
+        display: none;
+        width: 380px;
+        padding-right: 30px;
+
+        align-self: flex-end;
+
+        font-size: 14px;
+
+        line-height: 2;
+
+        order: 1;
+
+        p {
+            margin: 0;
+
+            font-size: 14px;
+
+            a {
+                font-size: 14px;
+            }
+        }
+
+        &--mobile {
+            margin-top: 10px;
+
+            font-size: 16px;
+            order: 2;
+
+            @media (min-width: $kmcc_screen-sm) {
+                display: none;
+            }
+        }
+
+        @media (min-width: $kmcc_screen-sm) {
+            display: block;
+        }
+    }
+
+    &__second {
+        display: flex;
+        width: 100%;
+        margin-top: 20px;
+
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        font: {
+            size: 16px;
+        }
+
+        order: 1;
+
+        @media (min-width: $kmcc_screen-xs) {
+            margin-top: 0;
+        }
+
+        @media (min-width: $kmcc_screen-sm) {
+            width: auto;
+
+            order: 2;
+            align-items: flex-end;
+        }
+    }
+
+    a {
+        line-height: 1.2;
+    }
+}

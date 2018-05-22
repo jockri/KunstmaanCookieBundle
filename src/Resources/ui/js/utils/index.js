@@ -1,0 +1,1 @@
+export {querySelectorAllArray} from './querySelectorAllArray';

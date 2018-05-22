@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Structures - Notification
+   ========================================================================== */
+
+/* General
+   ========================================================================== */
+
+.kmcc-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: $kmcc_z-notification;
+
+    width: 100vw;
+
+    opacity: 0;
+
+    transform: translateY(-100%);
+
+    transition: all .2s ease;
+
+    background-color: $kmcc_secondary-color;
+
+    color: $kmcc_white;
+
+    text-align: center;
+}
+
+.kmcc-notification--visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.kmcc-notification__content {
+    margin: 25px 0;
+}

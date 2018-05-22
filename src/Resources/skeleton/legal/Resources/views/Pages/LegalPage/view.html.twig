@@ -1,0 +1,6 @@
+{% extends '<%= bundle.name %>:Page:layout.html.twig' %}
+
+{% block content %}
+    <input type="hidden" id="kmcc-page" /> {# To identify that we're on the cookie content page. #}
+    {{ render_pagetemplate(page) }}
+{% endblock %}

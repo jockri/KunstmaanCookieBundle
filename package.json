@@ -1,0 +1,32 @@
+{
+  "name": "cookie-bundle",
+  "version": "1.0.0",
+  "description": "GDPR Compliant cookie consent",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "smoothscroll-polyfill": "^0.4.2",
+    "svgxuse": "^1.2.6"
+  },
+  "keywords": [
+    "GDPR",
+    "cookie"
+  ],
+  "author": "Kunstmaan",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-es6-promise": "^1.1.1",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "jest": "^22.4.3",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.1.4"
+  }
+}
