@@ -4,6 +4,7 @@ import 'svgxuse';
 import {get} from './services/xhr';
 import cookies from './services/cookies';
 import datalayers from './services/datalayers';
+import AsyncDomInitiator from './services/AsyncDomInitiator';
 import {querySelectorAllArray} from './utils';
 import {
     dispatch,
@@ -38,11 +39,13 @@ import {COOKIE_MODAL_TRIGGER_IDENTIFIER} from './config/cookieModalTrigger.confi
 
 export const getKmccCookies = cookies.getKmccCookies;
 export const hasAllowedDataLayers = cookies.hasAllowedDataLayers;
+export const asyncDomInitiator = AsyncDomInitiator.init;
 
 // For projects that do not use bundlers on their own.
 window.kmcc = {
     getKmccCookies,
-    hasAllowedDataLayers
+    hasAllowedDataLayers,
+    asyncDomInitiator
 };
 
 switch(true) {
@@ -107,6 +110,10 @@ function bootstrapCookieConsent() {
                     isOnCookiePage
                 }
             });
+            // If there are any of the basic components on the page now, these will init as well.
+            // Double init is prevented on ./components/Component
+            initializeBasicComponents(isOnCookiePage); 
+            // Init extended.
             initializeExtendedComponents(isOnCookiePage);
         });
     }
@@ -139,7 +146,7 @@ function initializeExtendedComponents(isOnCookiePage) {
 }
 
 function initializeToggleButtons() {
-    let allToggleButtons = querySelectorAllArray(`.${TOGGLE_BUTTON_CLASS_IDENTIFIER}`);
+    let allToggleButtons = querySelectorAllArray(TOGGLE_BUTTON_CLASS_IDENTIFIER);
     allToggleButtons.forEach((toggleButton) => {
         // This is the key on the state.
         if (toggleButton.hasAttribute('rel')) {
@@ -156,7 +163,7 @@ function initializeToggleButtons() {
 }
 
 function initializeCookieModalTriggers() {
-    let allCookieModalTriggers = querySelectorAllArray(`.${COOKIE_MODAL_TRIGGER_IDENTIFIER}`);
+    let allCookieModalTriggers = querySelectorAllArray(COOKIE_MODAL_TRIGGER_IDENTIFIER);
     allCookieModalTriggers.forEach((cookieModalTrigger) => {
         new CookieModalTrigger({
             vdom: cookieModalTrigger

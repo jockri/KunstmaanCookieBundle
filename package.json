@@ -1,15 +1,20 @@
 {
   "name": "cookie-bundle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "GDPR Compliant cookie consent",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack",
+    "start": "webpack --watch"
   },
   "dependencies": {
     "smoothscroll-polyfill": "^0.4.2",
     "svgxuse": "^1.2.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:Kunstmaan/KunstmaanCookieBundle.git"
   },
   "keywords": [
     "GDPR",

@@ -81,14 +81,19 @@ vendor/kunstmaan/cookie-bundle/src/Resources/ui/bin/index.js
 ### Global methods
 The CookieBundle exposes some utility methods that you can include in your project.
 ```
-import {getKmccCookies} from '../../../../../../vendor/kunstmaan/cookie-bundle/bin/'; // Returns the settings of all the cookies.
-import {hasAllowedDatalayers} from '../../../../../../vendor/kunstmaan/cookie-bundle/bin/'; // Shorthand to check if you're allowed to use dataLayers in this project.
+import {getKmccCookies} from '<VENDOR_LOCATION>/kunstmaan/cookie-bundle/bin/'; // Returns the settings of all the cookies.
+import {hasAllowedDatalayers} from '<VENDOR_LOCATION>/kunstmaan/cookie-bundle/bin/'; // Shorthand to check if you're allowed to use dataLayers in this
+ project.
+import {asyncDomInitiator} from '<VENDOR_LOCATION/kunstmaan/cookie-bundle/bin/'; // This is to initialize async inserted Cookie Bundle Components. Expects 1 param: an object like the following: {nodeTree: <HTMLElement>}
 ``` 
 
 Both these methods are also available on the global scope for projects that do not have bundlers:
 ```
 window.kmcc.getKmccCookies(); 
 window.kmcc.hasAllowedDatalayers(); 
+window.kmcc.asyncDomInitiator({
+    nodeTree: <HTMLElement>
+});
 ```
 
 # Commands
