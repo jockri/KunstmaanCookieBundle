@@ -178,6 +178,10 @@ Following input field should be added to your layout.html.twig. You can add in b
 <input type="hidden" value="{{ get_visitor_type(app.request) }}" id="kmcc-visitor-type"/>
 ```
 
+## Increase version number when adding cookies/types or changing stuff the requires new cookie consent.
+
+In the cookie configuration, there is a version number available. This version number can be increased in the CMS.
+
 ### Contributing
 
 We love contributions!

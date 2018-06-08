@@ -10,7 +10,7 @@ use Kunstmaan\CookieBundle\Form\CookieConfigType;
  * CookieConfig
  *
  * @ORM\Table(name="kuma_cookie_configs")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Kunstmaan\CookieBundle\Repository\CookieConfigRepository")
  */
 class CookieConfig extends AbstractConfig
 {
@@ -40,6 +40,13 @@ class CookieConfig extends AbstractConfig
      * @ORM\Column(name="cookie_bundle_enabled", type="boolean", nullable=true)
      */
     private $cookieBundleEnabled = false;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="cookie_version", type="integer", nullable=false)
+     */
+    private $cookieVersion;
 
     /**
      * Set clientIpAddresses
@@ -106,6 +113,38 @@ class CookieConfig extends AbstractConfig
     }
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCookieVersion()
+    {
+        return $this->cookieVersion;
+    }
+
+    /**
+     * @param int $cookieVersion
+     */
+    public function setCookieVersion($cookieVersion)
+    {
+        $this->cookieVersion = $cookieVersion;
+    }
+
+    /**
      * Returns the form type to use for this configuratble entity.
      *
      * @return string
@@ -136,5 +175,4 @@ class CookieConfig extends AbstractConfig
     {
         return 'Cookie configuration';
     }
-
 }

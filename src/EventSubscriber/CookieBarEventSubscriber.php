@@ -81,6 +81,8 @@ class CookieBarEventSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $response = $this->cookieHelper->checkCookieVersionInResponse($response, $request);
+
         $this->injectCookieBar($response);
     }
 

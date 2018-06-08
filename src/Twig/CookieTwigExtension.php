@@ -64,7 +64,7 @@ class CookieTwigExtension extends \Twig_Extension
      */
     public function getLegalCookie(Request $request)
     {
-        return $this->cookieHelper->getLegalCookie($request);
+        return $this->cookieHelper->getLegalCookie($request)['cookies'];
     }
 
     /**
@@ -74,7 +74,7 @@ class CookieTwigExtension extends \Twig_Extension
      */
     public function getVisitorType(Request $request)
     {
-        $cookieConfig = $this->em->getRepository('KunstmaanCookieBundle:CookieConfig')->find(1);
+        $cookieConfig = $this->em->getRepository('KunstmaanCookieBundle:CookieConfig')->findLatestConfig();
 
         if (null === $cookieConfig) {
             return CookieConfig::VISITOR_TYPE_NORMAL;
