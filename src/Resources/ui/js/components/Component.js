@@ -16,10 +16,14 @@ class Component {
             isOnCookiePage: false
         }, configuration);
         this.eventListeners = eventListeners || {};
-        this.boundEventListeners = this.bindEventListeners();
 
-
-        listen(this.handleComponentState.bind(this));
+        // So we don't accidentally double init a component.
+        // This could happen when async adding content and uncarefully running de AsyncDomInitiator.
+        if (!this.vdom.kmccInitiated) { 
+            this.boundEventListeners = this.bindEventListeners();
+            listen(this.handleComponentState.bind(this));
+            this.vdom.kmccInitiated = true;
+        }
     }
     
     // addEventLister(<type>, handler.bind(context)) is not removeable otherwise.
