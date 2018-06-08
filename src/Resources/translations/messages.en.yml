@@ -24,6 +24,9 @@ kuma:
         client_ip: Client ip-addresses
         internal_ip: Internal ip-addresses
         enabled: Cookie bundle is enabled
+        version:
+            label: Cookie version
+            info: When a new cookie/type is added, increase the version to show cookie consent again to visitor
 
     bar:
       title: This website works best with cookies

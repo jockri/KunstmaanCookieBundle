@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Kunstmaan\CookieBundle\Entity\CookieLog;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class LegalCookieHelper
@@ -65,7 +66,7 @@ class LegalCookieHelper
     /**
      * @param Request $request
      *
-     * @return mixed
+     * @return array
      */
     public function getLegalCookie(Request $request)
     {
@@ -73,7 +74,28 @@ class LegalCookieHelper
             $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME);
         }
 
-        return json_decode($this->legalCookie, true)['cookies'];
+        return json_decode($this->legalCookie, true);
+    }
+
+    /**
+     * @param Response $response
+     * @param Request  $request
+     *
+     * @return array
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function checkCookieVersionInResponse(Response $response, Request $request)
+    {
+        $cookie = $this->getLegalCookie($request);
+
+        $cookieConfig = $this->em->getRepository('KunstmaanCookieBundle:CookieConfig')->findLatestConfig();
+
+        // If version is different, expire cookie.
+        if ($cookieConfig->getCookieVersion() !== $cookie['cookie_version']) {
+            $response->headers->clearCookie(self::LEGAL_COOKIE_NAME);
+        }
+
+        return $response;
     }
 
     /**
@@ -84,6 +106,9 @@ class LegalCookieHelper
      */
     public function saveLegalCookie(Request $request, array $legalCookie)
     {
+        // Get cookie version.
+        $cookieConfig = $this->em->getRepository('KunstmaanCookieBundle:CookieConfig')->findLatestConfig();
+
         $log = new CookieLog();
         $log->setIpAddress($request->getClientIp());
         $log->setCreated(new \DateTime('now'));
@@ -92,6 +117,12 @@ class LegalCookieHelper
         $this->em->flush();
 
         $legalCookie['cookie_log_id'] = $log->getId();
+
+        if (null !== $cookieConfig) {
+            $legalCookie['cookie_version'] = $cookieConfig->getCookieVersion();
+        } else {
+            $legalCookie['cookie_version'] = 1;
+        }
 
         return new Cookie(
             self::LEGAL_COOKIE_NAME,
@@ -113,7 +144,7 @@ class LegalCookieHelper
     {
         $authenticated = false;
 
-        $cookieConfig = $this->em->getRepository('KunstmaanCookieBundle:CookieConfig')->find(1);
+        $cookieConfig = $this->em->getRepository('KunstmaanCookieBundle:CookieConfig')->findLatestConfig();
         $session = $request->getSession();
 
         if (null !== $cookieConfig) {
