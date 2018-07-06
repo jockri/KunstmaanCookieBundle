@@ -9,6 +9,7 @@
     "start": "webpack --watch"
   },
   "dependencies": {
+    "es6-promise": "^4.2.4",
     "smoothscroll-polyfill": "^0.4.2",
     "svgxuse": "^1.2.6"
   },
