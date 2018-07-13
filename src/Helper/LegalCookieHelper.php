@@ -90,9 +90,11 @@ class LegalCookieHelper
 
         $cookieConfig = $this->em->getRepository('KunstmaanCookieBundle:CookieConfig')->findLatestConfig();
 
-        // If version is different, expire cookie.
-        if (isset($cookie['cookie_version']) && $cookieConfig->getCookieVersion() !== $cookie['cookie_version']) {
-            $response->headers->clearCookie(self::LEGAL_COOKIE_NAME);
+        if (null !== $cookieConfig) {
+            // If version is different, expire cookie.
+            if (isset($cookie['cookie_version']) && $cookieConfig->getCookieVersion() !== $cookie['cookie_version']) {
+                $response->headers->clearCookie(self::LEGAL_COOKIE_NAME);
+            }
         }
 
         return $response;
