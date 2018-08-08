@@ -4,7 +4,8 @@ import {
     CONTENT_IDENTIFIER,
     TITLE_IDENTIFIER,
     CLASSES,
-    STATES
+    STATES,
+    BREAKPOINT
 } from '../config/collapsibleContent.config';
 
 class CollapsibleContent extends Component {
@@ -27,23 +28,22 @@ class CollapsibleContent extends Component {
     }
 
     shouldCollapse() {
-        const BREAKPOINT = this.vdom.dataset.breakpoint;
-        return (typeof BREAKPOINT === 'undefined')
-            ? true
-            : !window.matchMedia(`(min-width: ${BREAKPOINT}px)`).matches;
+        const breakpoint = this.vdom.dataset.breakpoint || BREAKPOINT;
+
+        return !window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
     }
 
     resizeHandler() {
-       if (this.resizeTimeout !== null) {
-           clearTimeout(this.resizeTimeout);
-       }
-       this.resizeTimeout = setTimeout(() => {
-           if (this.shouldCollapse()) {
+        if (this.resizeTimeout !== null) {
+            clearTimeout(this.resizeTimeout);
+        }
+        this.resizeTimeout = setTimeout(() => {
+            if (this.shouldCollapse()) {
                 this.close();
-           } else {
+            } else {
                 this.open();
-           }
-       }, 50);
+            }
+        }, 50);
     }
 
     toggleCollapse() {

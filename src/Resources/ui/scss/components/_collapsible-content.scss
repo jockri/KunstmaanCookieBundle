@@ -56,9 +56,7 @@
     }
 
     @media (min-width: $kmcc_screen-md) {
-        .js-kmcc-collapsible-content[data-breakpoint] & {
-            display: none;
-        }
+        display: none;
     }
 }
 
@@ -73,9 +71,7 @@
     border-bottom: 1px solid $kmcc_grey--dark;
 
     @media (min-width: $kmcc_screen-md) {
-        .js-kmcc-collapsible-content[data-breakpoint] & {
-            border-bottom: none;
-        }
+        border-bottom: none;
     }
 }
 
