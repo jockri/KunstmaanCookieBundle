@@ -1,30 +1,33 @@
-import {querySelectorAllArray} from '../utils';
+/* global document */
+/* eslint class-methods-use-this: 0 */
+
+import { querySelectorAllArray } from '../utils';
 
 import Component from './Component';
 
-import {select, SELECT_VISIBILITY_SCOPE, SELECT_COOKIE_MODAL_DETAIL_CONTENT} from '../state';
+import { select, SELECT_VISIBILITY_SCOPE, SELECT_COOKIE_MODAL_DETAIL_CONTENT } from '../state';
 import {
     COOKIE_MODAL_VISIBILITY_SCOPE,
-    COOKIE_MODAL_VISIBILITY_SCOPE_DETAIL
+    COOKIE_MODAL_VISIBILITY_SCOPE_DETAIL,
 } from '../state/state.config';
 import {
-    COOKIE_MODAL_IDENTIFIER, 
+    COOKIE_MODAL_IDENTIFIER,
     TOC_IDENTIFIER,
     DETAIL_CONTENT_WRAPPER_IDENTIFIER,
     MODAL_CONTENT_WRAPPER_IDENTIFIER,
-    CLASSES
+    CLASSES,
 } from '../config/cookiemodal.config';
 
 class CookieModal extends Component {
-    constructor({configuration} = {configuration: {modalContent: undefined}}) {
+    constructor({ configuration } = { configuration: { modalContent: undefined } }) {
         super({
             identifier: COOKIE_MODAL_IDENTIFIER,
             configuration: Object.assign(configuration, {
                 visibilityScopes: {
                     [COOKIE_MODAL_VISIBILITY_SCOPE]: [CLASSES.VISIBLE],
-                    [COOKIE_MODAL_VISIBILITY_SCOPE_DETAIL]: [CLASSES.VISIBLE, CLASSES.DETAIL_OPEN]
-                }
-            })
+                    [COOKIE_MODAL_VISIBILITY_SCOPE_DETAIL]: [CLASSES.VISIBLE, CLASSES.DETAIL_OPEN],
+                },
+            }),
         });
 
         this.initializeScrollHandlers();
@@ -59,11 +62,11 @@ class CookieModal extends Component {
     }
 
     checkIfDetailViewShouldOpen() {
-        const {visibilityScope} = select(SELECT_VISIBILITY_SCOPE);
+        const { visibilityScope } = select(SELECT_VISIBILITY_SCOPE);
 
         if (visibilityScope === COOKIE_MODAL_VISIBILITY_SCOPE_DETAIL) {
-            let {cookieModalDetailPageContent} = select(SELECT_COOKIE_MODAL_DETAIL_CONTENT);
-                
+            const { cookieModalDetailPageContent } = select(SELECT_COOKIE_MODAL_DETAIL_CONTENT);
+
             this.modalDetailContentWrapper.innerHTML = cookieModalDetailPageContent;
         }
     }
@@ -77,7 +80,7 @@ class CookieModal extends Component {
     }
 
     initializeScrollHandlers() {
-        let allTocItems = querySelectorAllArray(TOC_IDENTIFIER);
+        const allTocItems = querySelectorAllArray(TOC_IDENTIFIER);
 
         allTocItems.forEach((tocItem) => {
             tocItem.addEventListener('click', this.handleTOCClick);
@@ -87,13 +90,13 @@ class CookieModal extends Component {
     handleTOCClick(e) {
         if (typeof e.currentTarget.scrollIntoView === 'function') {
             e.preventDefault();
-            
-            let targetElement = document.querySelector(e.currentTarget.getAttribute('href'));
+
+            const targetElement = document.querySelector(e.currentTarget.getAttribute('href'));
 
             targetElement.scrollIntoView({
                 behavior: 'smooth',
                 inline: 'end',
-                block: 'start'
+                block: 'start',
             });
         }
     }

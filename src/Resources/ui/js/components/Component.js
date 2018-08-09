@@ -1,50 +1,50 @@
-import {listen} from '../state';
+/* global document */
+
+import { listen } from '../state';
 
 class Component {
     constructor({
-        identifier, 
-        vdom, 
-        configuration, 
-        eventListeners
-        }) {
-
+        identifier,
+        vdom,
+        configuration,
+        eventListeners,
+    }) {
         this.hasEventsConfigured = false;
         this.previousVisibilityScope = null;
         this.identifier = identifier;
         this.vdom = vdom || document.getElementById(identifier);
         this.configuration = Object.assign({
-            isOnCookiePage: false
+            isOnCookiePage: false,
         }, configuration);
         this.eventListeners = eventListeners || {};
 
         // So we don't accidentally double init a component.
         // This could happen when async adding content and uncarefully running de AsyncDomInitiator.
-        if (!this.vdom.kmccInitiated) { 
+        if (!this.vdom.kmccInitiated) {
             this.boundEventListeners = this.bindEventListeners();
             listen(this.handleComponentState.bind(this));
             this.vdom.kmccInitiated = true;
         }
     }
-    
+
     // addEventLister(<type>, handler.bind(context)) is not removeable otherwise.
     bindEventListeners() {
-        let boundFns = {};
+        const boundFns = {};
         Object.keys(this.eventListeners).forEach((eventType) => {
             boundFns[eventType] = this[this.eventListeners[eventType]].bind(this);
         });
-        return boundFns
+        return boundFns;
     }
 
     handleComponentState(state) {
         // handle visibility and events of component;
-        if (this.configuration.hasOwnProperty('visibilityScopes')) {
+        if (Object.prototype.hasOwnProperty.call(this.configuration, 'visibilityScopes')) {
             if (Object.keys(this.configuration.visibilityScopes).indexOf(state.visibilityScope) >= 0) {
                 if (this.previousVisibilityScope !== null) {
                     this.hide(this.previousVisibilityScope);
                 }
 
                 this.show(state);
-        
             } else {
                 this.hide(this.previousVisibilityScope);
                 this.removeAllEventListeners();
@@ -60,8 +60,7 @@ class Component {
     }
 
     addAllEventListeners() {
-
-        Object.keys(this.boundEventListeners).forEach((eventType) => { 
+        Object.keys(this.boundEventListeners).forEach((eventType) => {
             this.vdom.addEventListener(eventType, this.boundEventListeners[eventType]);
         });
 
@@ -69,19 +68,18 @@ class Component {
     }
 
     removeAllEventListeners() {
-        
-        Object.keys(this.boundEventListeners).forEach((eventType) => { 
+        Object.keys(this.boundEventListeners).forEach((eventType) => {
             this.vdom.removeEventListener(eventType, this.boundEventListeners[eventType]);
         });
     }
 
-        // Regarding classList.add/classList.remove:
-        // Can't do this form below because IE11 does not support multiple params for classList.add
-        // this.vdom.classList.add.apply(this.vdom.classList, this.configuration.visibilityScopes[visibilityScope]);
-        // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#compat-desktop
+    // Regarding classList.add/classList.remove:
+    // Can't do this form below because IE11 does not support multiple params for classList.add
+    // this.vdom.classList.add.apply(this.vdom.classList, this.configuration.visibilityScopes[visibilityScope]);
+    // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#compat-desktop
 
-    show({visibilityScope}) {
-        let visibilityScopes = this.configuration.visibilityScopes[visibilityScope];
+    show({ visibilityScope }) {
+        const visibilityScopes = this.configuration.visibilityScopes[visibilityScope];
         if (Array.isArray(visibilityScopes)) {
             visibilityScopes.forEach((scopeClass) => {
                 this.vdom.classList.add(scopeClass);
@@ -90,10 +88,10 @@ class Component {
     }
 
     hide(previousVisibilityScope) {
-        let visibilityScopes = this.configuration.visibilityScopes[previousVisibilityScope];
+        const visibilityScopes = this.configuration.visibilityScopes[previousVisibilityScope];
         if (Array.isArray(visibilityScopes) && visibilityScopes.length > 0) {
             visibilityScopes.forEach((scopeClass) => {
-                this.vdom.classList.remove(scopeClass);                 
+                this.vdom.classList.remove(scopeClass);
             });
         }
     }

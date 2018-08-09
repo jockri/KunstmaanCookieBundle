@@ -1,10 +1,12 @@
+/* global XMLHttpRequest */
+
 /**
  * GET Wrapper
  * @param url
  * @returns Promise
  */
 export function get(url) {
-    if (url && typeof url === 'string' && url !== "") {
+    if (url && typeof url === 'string' && url !== '') {
         return new Promise((resolve, reject) => {
             const req = new XMLHttpRequest();
 
@@ -19,9 +21,9 @@ export function get(url) {
             req.open('GET', url);
             req.send();
         });
-    } else {
-        throw new Error('url parameter cannot be empty and must be of type string');
     }
+
+    throw new Error('url parameter cannot be empty and must be of type string');
 }
 
 /**
@@ -31,7 +33,7 @@ export function get(url) {
  * @returns Promise
  */
 export function post(url, data) {
-    if (url && typeof url === 'string' && url !== "") {
+    if (url && typeof url === 'string' && url !== '') {
         return new Promise((resolve, reject) => {
             const req = new XMLHttpRequest();
 
@@ -48,7 +50,6 @@ export function post(url, data) {
             req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             req.send(data);
         });
-    } else {
-        throw new Error('url parameter cannot be empty and must be of type string');
     }
+    throw new Error('url parameter cannot be empty and must be of type string');
 }
