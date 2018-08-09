@@ -5,16 +5,16 @@ import {
     CONTENT_IDENTIFIER,
     TITLE_IDENTIFIER,
     CLASSES,
-    STATES
+    STATES,
 } from '../config/collapsibleContent.config';
 
 class CollapsibleContent extends Component {
-    constructor({vdom}) {
+    constructor({ vdom }) {
         super({
             vdom,
             eventListeners: {
-                click: 'toggleCollapse'
-            }
+                click: 'toggleCollapse',
+            },
         });
 
         this.content = this.vdom.querySelector(CONTENT_IDENTIFIER);
@@ -32,16 +32,16 @@ class CollapsibleContent extends Component {
     }
 
     resizeHandler() {
-       if (this.resizeTimeout !== null) {
-           clearTimeout(this.resizeTimeout);
-       }
-       this.resizeTimeout = setTimeout(() => {
-           if (this.shouldCollapse()) {
+        if (this.resizeTimeout !== null) {
+            clearTimeout(this.resizeTimeout);
+        }
+        this.resizeTimeout = setTimeout(() => {
+            if (this.shouldCollapse()) {
                 this.close();
-           } else {
+            } else {
                 this.open();
-           }
-       }, 50);
+            }
+        }, 50);
     }
 
     toggleCollapse() {

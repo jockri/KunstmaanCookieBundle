@@ -6,13 +6,19 @@ module.exports = {
     entry: './src/Resources/ui/js/index.js',
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, 'bin')
+        path: path.resolve(__dirname, 'bin'),
     },
     plugins: [
-        new CleanWebpackPlugin(['bin'])
+        new CleanWebpackPlugin(['bin']),
     ],
     module: {
         rules: [
+            {
+                enforce: 'pre',
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader',
+            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -23,13 +29,13 @@ module.exports = {
                         presets: [
                             ['env', {
                                 targets: {
-                                    browsers: ['last 2 versions', 'ie >= 10']
-                                }
-                            }]
-                        ]
-                    }
-                }
-            }
-        ]
-    }
+                                    browsers: ['last 2 versions', 'ie >= 10'],
+                                },
+                            }],
+                        ],
+                    },
+                },
+            },
+        ],
+    },
 };
