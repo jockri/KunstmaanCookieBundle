@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import xhr from '../xhr';
 
 let event;
@@ -5,7 +7,7 @@ let event;
 beforeAll(() => {
     event = {
         href: '/app_dev.php/nl/legal/toggle-all-cookies',
-        data: ''
+        data: '',
     };
 });
 
@@ -23,8 +25,8 @@ describe('Xhr', () => {
 
         describe('takes a url', () => {
             it('should return a Promise', () => {
-                test(err => {
-                    expect(() => {err}).toThrow();
+                test((err) => {
+                    expect(() => { err; }).toThrow();
                     done();
                 });
             });
@@ -32,7 +34,7 @@ describe('Xhr', () => {
 
         describe('takes a url', () => {
             it('should return an Error', () => {
-                expect(() => {xhr.get('')}).toThrow();
+                expect(() => { xhr.get(''); }).toThrow();
             });
         });
     });
