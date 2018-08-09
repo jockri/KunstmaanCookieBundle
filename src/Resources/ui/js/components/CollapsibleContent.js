@@ -1,20 +1,20 @@
 import Component from './Component';
 
 import {
-    BREAKPOINT,
     CONTENT_IDENTIFIER,
     TITLE_IDENTIFIER,
     CLASSES,
     STATES,
+    BREAKPOINT
 } from '../config/collapsibleContent.config';
 
 class CollapsibleContent extends Component {
-    constructor({ vdom }) {
+    constructor({vdom}) {
         super({
             vdom,
             eventListeners: {
-                click: 'toggleCollapse',
-            },
+                click: 'toggleCollapse'
+            }
         });
 
         this.content = this.vdom.querySelector(CONTENT_IDENTIFIER);
@@ -28,7 +28,9 @@ class CollapsibleContent extends Component {
     }
 
     shouldCollapse() {
-        return !window.matchMedia(`(min-width: ${BREAKPOINT}px)`).matches;
+        const breakpoint = this.vdom.dataset.breakpoint || BREAKPOINT;
+
+        return !window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
     }
 
     resizeHandler() {

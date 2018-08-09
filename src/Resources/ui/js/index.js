@@ -94,6 +94,7 @@ function bootstrapCookieConsent() {
         initializeBasicComponents(isOnCookiePage);
 
         if (cookiesHaveBeenSet) {
+            dispatch(LOAD_COOKIE_VALUE_TO_STATE, kmccCookieContent);
             dispatch(SET_VISIBILITY_SCOPE_TO_NONE);
         } else {
             dispatch(SET_VISIBILITY_SCOPE_TO_COOKIE_BAR);

@@ -93,7 +93,7 @@ class LegalOptInPagePart extends AbstractFormPagePart
     {
         $bfsf = new BooleanFormSubmissionField();
         $bfsf->setFieldName('field_'.$this->getUniqueId());
-        $bfsf->setLabel($this->getLabel());
+        $bfsf->setLabel('Legal opt-in checked');
         $bfsf->setSequence($sequence);
 
         $data = $formBuilder->getData();

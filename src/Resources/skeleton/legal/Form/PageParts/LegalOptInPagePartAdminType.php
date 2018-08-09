@@ -23,14 +23,6 @@ class LegalOptInPagePartAdminType extends AbstractType
     {
         $builder
             ->add(
-                'label',
-                TextType::class,
-                [
-                    'label' => 'kuma_form.form.checkbox_page_part.label.label',
-                    'required' => false,
-                ]
-            )
-            ->add(
                 'required',
                 CheckboxType::class,
                 [
