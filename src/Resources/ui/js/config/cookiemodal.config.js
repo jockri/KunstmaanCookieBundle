@@ -5,5 +5,5 @@ export const DETAIL_CONTENT_WRAPPER_IDENTIFIER = 'kmcc-detail-content';
 export const CLASSES = {
     PAGE: 'kmcc-cookie-modal--page',
     VISIBLE: 'kmcc-cookie-modal--visible',
-    DETAIL_OPEN: 'kmcc-cookie-modal--detail-open'
-}
+    DETAIL_OPEN: 'kmcc-cookie-modal--detail-open',
+};

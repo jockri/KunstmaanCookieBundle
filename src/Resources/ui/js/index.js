@@ -1,18 +1,21 @@
+/* global document, window */
+/* eslint no-new:0 */
+
 import smoothscroll from 'smoothscroll-polyfill';
 import 'svgxuse';
 
-import {get} from './services/xhr';
+import { get } from './services/xhr';
 import cookies from './services/cookies';
 import datalayers from './services/datalayers';
 import AsyncDomInitiator from './services/AsyncDomInitiator';
-import {querySelectorAllArray} from './utils';
+import { querySelectorAllArray } from './utils';
 import {
     dispatch,
     LOAD_COOKIE_VALUE_TO_STATE,
     SET_VISIBILITY_SCOPE_TO_NONE,
     SET_VISIBILITY_SCOPE_TO_COOKIE_BAR,
     SET_VISIBILITY_SCOPE_TO_COOKIE_PAGE_PRIVACY,
-    SET_VISIBILITY_SCOPE_TO_COOKIE_PAGE_PREFERENCES
+    SET_VISIBILITY_SCOPE_TO_COOKIE_PAGE_PREFERENCES,
 } from './state';
 
 import CookieBar from './components/CookieBar';
@@ -30,35 +33,38 @@ import CollapsibleContent from './components/CollapsibleContent';
 import Tab from './components/Tab';
 import CookieModalTrigger from './components/CookieModalTrigger';
 
-import {TOGGLE_BUTTON_CLASS_IDENTIFIER} from './config/toggleButton.config';
-import {TOGGLE_LINK_IDENTIFIER} from './config/toggleLink.config';
-import {COLLAPSIBLE_CONTENT_IDENTIFIER} from './config/collapsibleContent.config';
-import {KMCC_PAGE_IDENTIFIER, KMCC_CONTENT_URL_ITEM_IDENTIFIER} from './config/page.config';
-import {TAB_IDENTIFIER} from './config/tab.config';
-import {COOKIE_MODAL_TRIGGER_IDENTIFIER} from './config/cookieModalTrigger.config';
+import { TOGGLE_BUTTON_CLASS_IDENTIFIER } from './config/toggleButton.config';
+import { TOGGLE_LINK_IDENTIFIER } from './config/toggleLink.config';
+import { COLLAPSIBLE_CONTENT_IDENTIFIER } from './config/collapsibleContent.config';
+import { KMCC_PAGE_IDENTIFIER, KMCC_CONTENT_URL_ITEM_IDENTIFIER } from './config/page.config';
+import { TAB_IDENTIFIER } from './config/tab.config';
+import { COOKIE_MODAL_TRIGGER_IDENTIFIER } from './config/cookieModalTrigger.config';
 
-export const getKmccCookies = cookies.getKmccCookies;
-export const hasAllowedDataLayers = cookies.hasAllowedDataLayers;
+export const {
+    getKmccCookies,
+    hasAllowedDataLayers,
+} = cookies.getKmccCookies;
 export const asyncDomInitiator = AsyncDomInitiator.init;
 
 // For projects that do not use bundlers on their own.
 window.kmcc = {
     getKmccCookies,
     hasAllowedDataLayers,
-    asyncDomInitiator
+    asyncDomInitiator,
 };
 
-switch(true) {
+switch (true) {
     case document.readyState === 'interactive':
     case document.readyState === 'complete':
         bootstrapCookieConsent();
+        break;
     default:
         document.addEventListener('DOMContentLoaded', bootstrapCookieConsent);
 }
 
 function bootstrapCookieConsent() {
     // First check if the cookiebar SHOULD init.
-    let cookiebarWrapper = document.querySelector('kuma-cookie-bar');
+    const cookiebarWrapper = document.querySelector('kuma-cookie-bar');
     if (cookiebarWrapper === null || cookiebarWrapper.innerHTML === '') {
         return;
     }
@@ -67,10 +73,10 @@ function bootstrapCookieConsent() {
     smoothscroll.polyfill();
     // This Boolean is needed to determine some functionality of close buttons.
     // (The modal is not open on the cookie page.)
-    let isOnCookiePage = document.getElementById(KMCC_PAGE_IDENTIFIER) !== null;
+    const isOnCookiePage = document.getElementById(KMCC_PAGE_IDENTIFIER) !== null;
     // First check the current settings for the cookies.
-    let kmccCookieContent = getKmccCookieContent();
-    let cookiesHaveBeenSet = typeof kmccCookieContent !== 'undefined'
+    const kmccCookieContent = getKmccCookieContent();
+    const cookiesHaveBeenSet = typeof kmccCookieContent !== 'undefined';
     // Send data about cookie settings (if they are set) to GTM.
     cookies.sendActivateCookiesEventToGTM();
     // Send data about type of visitor to GTM
@@ -79,9 +85,9 @@ function bootstrapCookieConsent() {
     if (isOnCookiePage) {
         initializeBasicComponents(isOnCookiePage);
         new CookieModal({
-            configuration: {isOnCookiePage}
+            configuration: { isOnCookiePage },
         });
-        initializeExtendedComponents(isOnCookiePage);
+        initializeExtendedComponents();
 
         if (cookiesHaveBeenSet) {
             dispatch(LOAD_COOKIE_VALUE_TO_STATE, kmccCookieContent);
@@ -89,7 +95,6 @@ function bootstrapCookieConsent() {
         } else {
             dispatch(SET_VISIBILITY_SCOPE_TO_COOKIE_PAGE_PREFERENCES);
         }
-
     } else {
         initializeBasicComponents(isOnCookiePage);
 
@@ -102,20 +107,19 @@ function bootstrapCookieConsent() {
 
 
         // Get the content URL for the modal.
-        let contentUrl = document.getElementById(KMCC_CONTENT_URL_ITEM_IDENTIFIER).value;
-        get(contentUrl).then(({response: modalContent}) => {
-            
+        const contentUrl = document.getElementById(KMCC_CONTENT_URL_ITEM_IDENTIFIER).value;
+        get(contentUrl).then(({ response: modalContent }) => {
             new CookieModal({
                 configuration: {
                     modalContent,
-                    isOnCookiePage
-                }
+                    isOnCookiePage,
+                },
             });
             // If there are any of the basic components on the page now, these will init as well.
             // Double init is prevented on ./components/Component
-            initializeBasicComponents(isOnCookiePage); 
+            initializeBasicComponents(isOnCookiePage);
             // Init extended.
-            initializeExtendedComponents(isOnCookiePage);
+            initializeExtendedComponents();
         });
     }
 }
@@ -125,15 +129,15 @@ function initializeBasicComponents(isOnCookiePage) {
     new AcceptAllCookiesButton();
     new Notification();
     new BackDrop({
-        configuration: {isOnCookiePage}
+        configuration: { isOnCookiePage },
     });
     new CloseCookieModalButton({
-        configuration: {isOnCookiePage}
+        configuration: { isOnCookiePage },
     });
     initializeCookieModalTriggers();
 }
 
-function initializeExtendedComponents(isOnCookiePage) {
+function initializeExtendedComponents() {
     initializeTabs();
     initializeToggleButtons();
     initializeCollapsibleContent();
@@ -142,20 +146,20 @@ function initializeExtendedComponents(isOnCookiePage) {
     new AcceptSomeCookiesButton();
     new CloseDetailButton();
     new ToTopButton({
-        controlledElement: document.getElementById('kmcc-modal-content')
+        controlledElement: document.getElementById('kmcc-modal-content'),
     });
 }
 
 function initializeToggleButtons() {
-    let allToggleButtons = querySelectorAllArray(TOGGLE_BUTTON_CLASS_IDENTIFIER);
+    const allToggleButtons = querySelectorAllArray(TOGGLE_BUTTON_CLASS_IDENTIFIER);
     allToggleButtons.forEach((toggleButton) => {
         // This is the key on the state.
         if (toggleButton.hasAttribute('rel')) {
             new ToggleButton({
                 vdom: toggleButton,
                 configuration: {
-                    stateIdentifier: toggleButton.getAttribute('rel')
-                }
+                    stateIdentifier: toggleButton.getAttribute('rel'),
+                },
             });
         } else {
             throw new Error('A toggle button should have an identifier that maps its value to the state.');
@@ -164,19 +168,19 @@ function initializeToggleButtons() {
 }
 
 function initializeCookieModalTriggers() {
-    let allCookieModalTriggers = querySelectorAllArray(COOKIE_MODAL_TRIGGER_IDENTIFIER);
+    const allCookieModalTriggers = querySelectorAllArray(COOKIE_MODAL_TRIGGER_IDENTIFIER);
     allCookieModalTriggers.forEach((cookieModalTrigger) => {
         new CookieModalTrigger({
-            vdom: cookieModalTrigger
+            vdom: cookieModalTrigger,
         });
-    })
+    });
 }
 
 function initializeToggleLinks() {
-    let allToggleLinks = querySelectorAllArray(TOGGLE_LINK_IDENTIFIER);
+    const allToggleLinks = querySelectorAllArray(TOGGLE_LINK_IDENTIFIER);
     allToggleLinks.forEach((toggleLink) => {
         new ToggleLink({
-            vdom: toggleLink
+            vdom: toggleLink,
         });
     });
 }
@@ -185,15 +189,15 @@ function initializeCollapsibleContent() {
     const allCollapsibleContent = querySelectorAllArray(COLLAPSIBLE_CONTENT_IDENTIFIER);
     allCollapsibleContent.forEach((collapsibleContent) => {
         new CollapsibleContent({
-            vdom: collapsibleContent
+            vdom: collapsibleContent,
         });
     });
 }
 
 function initializeTabs() {
-    let allTabs = querySelectorAllArray(TAB_IDENTIFIER);
+    const allTabs = querySelectorAllArray(TAB_IDENTIFIER);
     allTabs.forEach((element) => {
-        new Tab({vdom: element});
+        new Tab({ vdom: element });
     });
 }
 

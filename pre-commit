@@ -1,5 +1,5 @@
 #!/bin/sh
-cat <<EOF 
+cat <<EOF
 
   _  __            _                        
  | |/ /  _ _ _  __| |_ _ __  __ _ __ _ _ _  
@@ -12,7 +12,8 @@ EOF
 
 if ! [[ -d ./node_modules ]]; then
     npm install
-fi 
+fi
 
+npm run test
 npm run build
-git add ./bin/index.js 
+git add ./bin/index.js

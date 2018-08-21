@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from './Component';
 
 import {
     select,
@@ -6,34 +6,33 @@ import {
     SELECT_TAB_SCOPE,
     SET_TAB_SCOPE_CONTACT,
     SET_TAB_SCOPE_PREFERENCES,
-    SET_TAB_SCOPE_PRIVACY
+    SET_TAB_SCOPE_PRIVACY,
 } from '../state';
 
 import {
     TAB_SCOPE_CONTACT,
     TAB_SCOPE_PREFERENCES,
-    TAB_SCOPE_PRIVACY
+    TAB_SCOPE_PRIVACY,
 } from '../state/state.config';
 
 class Tab extends Component {
-
-    constructor({vdom}) {
+    constructor({ vdom }) {
         super({
             vdom,
             eventListeners: {
-                click: 'handleTabClick'
-            }
+                click: 'handleTabClick',
+            },
         });
     }
 
     handleComponentState(state) {
         super.handleComponentState(state);
-        
+
         this.checkIfTabHasToBeActivated();
     }
 
     handleTabClick() {
-        switch(true) {
+        switch (true) {
             case this.vdom.id === TAB_SCOPE_CONTACT:
                 dispatch(SET_TAB_SCOPE_CONTACT);
                 break;
@@ -43,18 +42,20 @@ class Tab extends Component {
             case this.vdom.id === TAB_SCOPE_PRIVACY:
                 dispatch(SET_TAB_SCOPE_PRIVACY);
                 break;
+            default:
+                dispatch(SET_TAB_SCOPE_PREFERENCES);
         }
     }
 
     checkIfTabHasToBeActivated() {
-        let {tabScope} = select(SELECT_TAB_SCOPE);
-        
+        const { tabScope } = select(SELECT_TAB_SCOPE);
+
         if (this.vdom.id === tabScope) {
             this.vdom.checked = true;
         } else {
             this.vdom.checked = false;
         }
-    }   
+    }
 }
 
 export default Tab;

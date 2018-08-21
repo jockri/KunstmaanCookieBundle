@@ -1,8 +1,7 @@
-import Component from "./Component";
+import Component from './Component';
 
-import {select, dispatch, SELECT_COOKIE_SETTINGS, SET_VISIBILITY_SCOPE_TO_NOTIFICATION} from '../state';
-import {COOKIE_MODAL_VISIBILITY_SCOPE} from '../state/state.config';
-import {BUTTON_IDENTIFIER} from '../config/acceptSomeCookiesButton.config';
+import { select, dispatch, SELECT_COOKIE_SETTINGS, SET_VISIBILITY_SCOPE_TO_NOTIFICATION } from '../state';
+import { BUTTON_IDENTIFIER } from '../config/acceptSomeCookiesButton.config';
 import cookies from '../services/cookies';
 
 class AcceptSomeCookiesButton extends Component {
@@ -10,8 +9,8 @@ class AcceptSomeCookiesButton extends Component {
         super({
             identifier: BUTTON_IDENTIFIER,
             eventListeners: {
-                click: 'handleAcceptSomeCookies'
-            }
+                click: 'handleAcceptSomeCookies',
+            },
         });
     }
 
@@ -19,8 +18,8 @@ class AcceptSomeCookiesButton extends Component {
         e.preventDefault();
 
         if (this.vdom.hasAttribute('data-href')) {
-            let toggleSomeCookiesUrl = this.vdom.getAttribute('data-href');
-            let cookieSettings = select(SELECT_COOKIE_SETTINGS);
+            const toggleSomeCookiesUrl = this.vdom.getAttribute('data-href');
+            const cookieSettings = select(SELECT_COOKIE_SETTINGS);
             cookies.toggleSome(toggleSomeCookiesUrl, cookieSettings);
             dispatch(SET_VISIBILITY_SCOPE_TO_NOTIFICATION);
         } else {

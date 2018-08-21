@@ -1,11 +1,10 @@
-import Component from "./Component";
+import Component from './Component';
 
-import { BUTTON_IDENTIFIER } from "../config/acceptAllCookies.config";
+import { BUTTON_IDENTIFIER } from '../config/acceptAllCookies.config';
 import {
     dispatch,
     SET_VISIBILITY_SCOPE_TO_NOTIFICATION,
-} from "../state";
-import { COOKIE_BAR_VISIBILITY_SCOPE } from '../state/state.config';
+} from '../state';
 
 import cookies from '../services/cookies';
 
@@ -14,8 +13,8 @@ class AcceptAllCookiesButton extends Component {
         super({
             identifier: BUTTON_IDENTIFIER,
             eventListeners: {
-                click: 'handleAcceptAllCookies'
-            }
+                click: 'handleAcceptAllCookies',
+            },
         });
     }
 

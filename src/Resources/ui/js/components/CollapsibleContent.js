@@ -1,3 +1,5 @@
+/* global window */
+
 import Component from './Component';
 
 import {
@@ -5,16 +7,16 @@ import {
     TITLE_IDENTIFIER,
     CLASSES,
     STATES,
-    BREAKPOINT
+    BREAKPOINT,
 } from '../config/collapsibleContent.config';
 
 class CollapsibleContent extends Component {
-    constructor({vdom}) {
+    constructor({ vdom }) {
         super({
             vdom,
             eventListeners: {
-                click: 'toggleCollapse'
-            }
+                click: 'toggleCollapse',
+            },
         });
 
         this.content = this.vdom.querySelector(CONTENT_IDENTIFIER);
